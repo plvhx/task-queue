@@ -2,6 +2,8 @@
 
 ## Task queue library written in PHP.
 
+[![Coverage Status](https://coveralls.io/repos/github/plvhx/task-queue/badge.svg?branch=master)](https://coveralls.io/github/plvhx/task-queue?branch=master)
+
 ## Registering single task
 
 Existing functions or callbacks:
