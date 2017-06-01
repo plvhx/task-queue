@@ -2,8 +2,8 @@
 
 ## Task queue library written in PHP.
 
-[![Coverage Status](https://coveralls.io/repos/github/plvhx/task-queue/badge.svg?branch=master)](https://coveralls.io/github/plvhx/task-queue?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/8d81bd99-56ad-4635-9236-f65497ea3881/small.png)](https://insight.sensiolabs.com/projects/8d81bd99-56ad-4635-9236-f65497ea3881)
+[![Coverage Status](https://coveralls.io/repos/github/plvhx/task-queue/badge.svg?branch=master)](https://coveralls.io/github/plvhx/task-queue?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/plvhx/task-queue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/plvhx/task-queue/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/plvhx/task-queue/badges/build.png?b=master)](https://scrutinizer-ci.com/g/plvhx/task-queue/build-status/master)
 
