@@ -14,9 +14,12 @@ Existing functions or callbacks:
 ```php
 <?php
 
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\FunctionInvoker;
+
 $taskQueue = new TaskQueue;
 
-$taskQueue->add('file_get_contents', '/etc/passwd');
+$taskQueue->add(new FunctionInvoker('file_get_contents'), '/etc/passwd');
 
 $taskQueue->run();
 ```
@@ -26,9 +29,51 @@ Closures:
 ```php
 <?php
 
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\FunctionInvoker;
+
 $taskQueue = new TaskQueue;
 
-$taskQueue->add(function() { echo "Hello with closures." . PHP_EOL; });
+$closure = function() {
+	echo "Hello with closures." . PHP_EOL;
+};
+
+$taskQueue->add(new FunctionInvoker($closure));
+
+$taskQueue->run();
+```
+
+Class method with class name:
+
+```php
+<?php
+
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\MethodInvoker;
+use DependencyInjection\Container;
+
+$taskQueue = new TaskQueue;
+
+$taskQueue->add(new MethodInvoker(
+	new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
+));
+
+$taskQueue->run();
+```
+
+Class method with class instance:
+
+```php
+<?php
+
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\MethodInvoker;
+use DependencyInjection\Container;
+
+$queue = new \SplPriorityQueue;
+$taskQueue = new TaskQueue;
+
+$taskQueue->add(new MethodInvoker(new Container, ['instance' => $queue, 'method' => 'count']));
 
 $taskQueue->run();
 ```
@@ -40,11 +85,14 @@ Existing functions or callbacks:
 ```php
 <?php
 
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\FunctionInvoker;
+
 $taskQueue = new TaskQueue;
 
 $taskQueue
-	->add('file_get_contents', '/etc/passwd')
-	->add('printf', '%d' . PHP_EOL, 31337);
+	->add(new FunctionInvoker('file_get_contents'), '/etc/passwd')
+	->add(new FunctionInvoker('printf'), '%d' . PHP_EOL, 31337);
 
 $taskQueue->run();
 ```
@@ -54,11 +102,23 @@ Closures:
 ```php
 <?php
 
+use TaskQueue\TaskQueue;
+use TaskQueue\Invoker\FunctionInvoker;
+
 $taskQueue = new TaskQueue;
 
+$closures = [
+	function() {
+		echo "This will be a second run." . PHP_EOL;
+	},
+	function() {
+		echo "This will be a first run." . PHP_EOL;
+	}
+];
+
 $taskQueue
-	->add(function() { echo "This will be a second run." . PHP_EOL; })
-	->add(function() { echo "This will be a first run." . PHP_EOL; });
+	->add(new FunctionInvoker($closures[0]))
+	->add(new FunctionInvoker($closures[1]));
 
 $taskQueue->run();
 ```
