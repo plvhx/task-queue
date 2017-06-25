@@ -2,6 +2,8 @@
 
 namespace TaskQueue;
 
+use TaskQueue\Invoker\InvokerInterface;
+
 class TaskQueue implements TaskQueueInterface
 {
     /**
@@ -12,23 +14,15 @@ class TaskQueue implements TaskQueueInterface
     /**
      * Add callbacks or \Closure into task queueing stack.
      *
-     * @param string $task The callback or Closure.
+     * @param InvokerInterface $invoker
      * @param array $taskArgs The callback or Closure arguments.
      * @return TaskQueueInterface
      */
-    public function add($task, $taskArgs = [])
+    public function add(InvokerInterface $invoker, $taskArgs = [])
     {
-        if (!is_callable($task) && !($task instanceof \Closure)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Parameter 1 of %s must be instance of \\Closure or name of function that exists.", __METHOD__
-                )
-            );
-        }
-
         $taskArgs = (is_array($taskArgs) ? $taskArgs : array_slice(func_get_args(), 1));
 
-        array_unshift($this->tasks, compact('task', 'taskArgs'));
+        array_unshift($this->tasks, compact('invoker', 'taskArgs'));
 
         return $this;
     }
@@ -41,7 +35,7 @@ class TaskQueue implements TaskQueueInterface
     public function run()
     {
         while ($eachTasks = array_shift($this->tasks)) {
-            call_user_func_array($eachTasks['task'], $eachTasks['taskArgs']);
+            $eachTasks['invoker']->invokeWithArgs($eachTasks['taskArgs']);
         }
     }
 }

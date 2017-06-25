@@ -2,6 +2,8 @@
 
 namespace TaskQueue;
 
+use TaskQueue\Invoker\InvokerInterface;
+
 interface TaskQueueInterface
 {
     /**
@@ -11,7 +13,7 @@ interface TaskQueueInterface
      * @param array $taskArgs The callback or Closure arguments.
      * @return TaskQueueInterface
      */
-    public function add($task, $taskArgs = []);
+    public function add(InvokerInterface $invoker, $taskArgs = []);
 
     /**
      * Invoke all of pending task in the task queueing stack.
