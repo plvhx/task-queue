@@ -36,4 +36,14 @@ class TaskQueueTest extends \PHPUnit_Framework_TestCase
 
         $taskQueue->run();
     }
+
+    public function testCanRegisterMethodBasedSingleTask()
+    {
+        $taskQueue = new TaskQueue;
+
+	$taskQueue
+            ->add(new MethodInvoker(['instance' => new \SplFixedArray, 'method' => 'count']));
+
+        $taskQueue->run();
+    }
 }

@@ -14,7 +14,7 @@ class MethodInvoker implements InvokerInterface
      */
     private $method;
 
-    public function __construct(Container $container, $args)
+    public function __construct($args)
     {
         if (!is_array($args)) {
             throw new \InvalidArgumentException(
@@ -38,7 +38,7 @@ class MethodInvoker implements InvokerInterface
 
         $args['instance'] = (!is_object($args['instance'])
             ? (class_exists($args['instance'])
-                ? $container->make($args['instance'])
+                ? (new Container)->make($args['instance'])
                 : null)
             : $args['instance']);
 

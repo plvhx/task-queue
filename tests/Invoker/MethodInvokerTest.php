@@ -13,7 +13,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
     public function testCanGetInstance()
     {
         $invoker = new MethodInvoker(
-            new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
+            ['instance' => \SplPriorityQueue::class, 'method' => 'count']
         );
 
         $this->assertInstanceOf(MethodInvoker::class, $invoker);
@@ -24,7 +24,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotGetInstanceAndThrowsException0()
     {
-        $invoker = new MethodInvoker(new Container, null);
+        $invoker = new MethodInvoker(null);
     }
 
     /**
@@ -32,7 +32,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotGetInstanceAndThrowsException1()
     {
-        $invoker = new MethodInvoker(new Container, []);
+        $invoker = new MethodInvoker([]);
     }
 
     /**
@@ -40,7 +40,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotGetInstanceAndThrowsException2()
     {
-        $invoker = new MethodInvoker(new Container, [\SplPriorityQueue::class, 'method' => 'count']);
+        $invoker = new MethodInvoker([\SplPriorityQueue::class, 'method' => 'count']);
     }
 
     /**
@@ -48,13 +48,13 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotGetInstanceAndThrowsException3()
     {
-        $invoker = new MethodInvoker(new Container, ['instance' => \SplPriotiyQueue::class, 'count']);
+        $invoker = new MethodInvoker(['instance' => \SplPriotiyQueue::class, 'count']);
     }
 
     public function testCanInvokeMethodWithPHPBuiltinArgumentGetter()
     {
         $invoker = new MethodInvoker(
-            new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
+            ['instance' => \SplPriorityQueue::class, 'method' => 'count']
         );
 
         $this->assertInstanceOf(MethodInvoker::class, $invoker);
@@ -68,7 +68,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
     public function testCannotInvokeMethodAndThrowsException()
     {
         $invoker = new MethodInvoker(
-            new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
+            ['instance' => \SplPriorityQueue::class, 'method' => 'count']
         );
 
         $invoker->invokeWithArgs(null);
@@ -77,7 +77,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
     public function testCanInvokeMethodWithArrayOfArguments()
     {
         $invoker = new MethodInvoker(
-            new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
+            ['instance' => \SplPriorityQueue::class, 'method' => 'count']
         );
 
         $this->assertInstanceOf(MethodInvoker::class, $invoker);
