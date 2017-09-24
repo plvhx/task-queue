@@ -48,7 +48,7 @@ class MethodInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCannotGetInstanceAndThrowsException3()
     {
-        $invoker = new MethodInvoker(['instance' => \SplPriotiyQueue::class, 'count']);
+        $invoker = new MethodInvoker(['instance' => \SplPriorityQueue::class, 'count']);
     }
 
     public function testCanInvokeMethodWithPHPBuiltinArgumentGetter()
