@@ -50,13 +50,10 @@ Class method with class name:
 
 use TaskQueue\TaskQueue;
 use TaskQueue\Invoker\MethodInvoker;
-use DependencyInjection\Container;
 
 $taskQueue = new TaskQueue;
 
-$taskQueue->add(new MethodInvoker(
-	new Container, ['instance' => \SplPriorityQueue::class, 'method' => 'count']
-));
+$taskQueue->add(new MethodInvoker(['instance' => \SplPriorityQueue::class, 'method' => 'count']));
 
 $taskQueue->run();
 ```
@@ -68,12 +65,11 @@ Class method with class instance:
 
 use TaskQueue\TaskQueue;
 use TaskQueue\Invoker\MethodInvoker;
-use DependencyInjection\Container;
 
 $queue = new \SplPriorityQueue;
 $taskQueue = new TaskQueue;
 
-$taskQueue->add(new MethodInvoker(new Container, ['instance' => $queue, 'method' => 'count']));
+$taskQueue->add(new MethodInvoker(['instance' => $queue, 'method' => 'count']));
 
 $taskQueue->run();
 ```
