@@ -16,7 +16,7 @@ interface TaskQueueInterface
      * @param array $args
      * @return TaskQueueInterface
      */
-    public function add($callback, $args = []);
+    public function add($callback, array $args = []);
 
     /**
      * Invoke all of pending task in the task queueing stack.
