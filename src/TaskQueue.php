@@ -2,8 +2,13 @@
 
 namespace TaskQueue;
 
+use TaskQueue\Invoker\FunctionInvoker;
 use TaskQueue\Invoker\InvokerInterface;
+use TaskQueue\Invoker\MethodInvoker;
 
+/**
+ * @author Paulus Gandung Prakosa <gandung@lists.infradead.org>
+ */
 class TaskQueue implements TaskQueueInterface
 {
     /**
@@ -12,18 +17,21 @@ class TaskQueue implements TaskQueueInterface
     private $tasks = [];
 
     /**
-     * Add callbacks or \Closure into task queueing stack.
-     *
-     * @param InvokerInterface $invoker
-     * @param array $taskArgs The callback or Closure arguments.
-     * @return TaskQueueInterface
+     * {@inheritdoc}
      */
-    public function add(InvokerInterface $invoker, $taskArgs = [])
+    public function add($callable, $args = [])
     {
-        $taskArgs = (is_array($taskArgs) ? $taskArgs : array_slice(func_get_args(), 1));
+        try {
+            $callable = $this->checkAndAssign($callable);
+        } catch (Exception $e) {
+            throw $e;
+        }
 
-        array_unshift($this->tasks, compact('invoker', 'taskArgs'));
+        $args = (is_array($args)
+            ? $args
+            : array_slice(func_get_args(), 1));
 
+        $this->addTask([$callable, $args]);
         return $this;
     }
 
@@ -36,6 +44,49 @@ class TaskQueue implements TaskQueueInterface
     {
         while ($eachTasks = array_shift($this->tasks)) {
             $eachTasks['invoker']->invokeWithArgs($eachTasks['taskArgs']);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTasks(array $tasks)
+    {
+        $this->tasks = $tasks;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTasks(): array
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTask(array $task)
+    {
+        $this->tasks[] = $task;
+        return $this;
+    }
+
+    private function checkAndAssign($callable)
+    {
+        if (is_callable($callable) || is_a($callable, Closure::class)) {
+            return new FunctionInvoker($callable);
+        }
+
+        if (is_object($callable) && method_exists($callable, '__invoke')) {
+            return new FunctionInvoker($callable);
+        }
+
+        if (is_array($callable) &&
+            count($callable) == 2 &&
+            (is_object($callable[0]) && method_exists($callable[0], $callable[1]))) {
+            return new MethodInvoker($callable);
         }
     }
 }
