@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TaskQueue;
 
+use Closure;
 use InvalidArgumentException;
 use TaskQueue\Invoker\FunctionInvoker;
 use TaskQueue\Invoker\MethodInvoker;
