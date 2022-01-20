@@ -5,7 +5,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/plvhx/task-queue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/plvhx/task-queue/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/plvhx/task-queue/badges/build.png?b=master)](https://scrutinizer-ci.com/g/plvhx/task-queue/build-status/master)
 
-## Registering single task
+### Registering single task
 
 Existing functions or callbacks:
 
@@ -72,7 +72,7 @@ $taskQueue->add(new MethodInvoker(['instance' => $queue, 'method' => 'count']));
 $taskQueue->run();
 ```
 
-## Registering multiple tasks
+### Registering multiple tasks
 
 Existing functions or callbacks:
 
@@ -117,8 +117,14 @@ $taskQueue
 $taskQueue->run();
 ```
 
-## Unit testing
+### Unit testing
 
 ```
 vendor/bin/phpunit
+```
+
+### Unit testing with code coverage in HTML (only if XDebug enabled)
+
+```
+XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html [path]
 ```
