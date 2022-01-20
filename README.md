@@ -28,7 +28,7 @@ use TaskQueue\TaskQueue;
 
 $taskQueue = new TaskQueue();
 $taskQueue->add(function() {
-	echo 'Hello with closured.' . PHP_EOL;
+	echo 'Hello with closure.' . PHP_EOL;
 });
 $taskQueue->run();
 ```
