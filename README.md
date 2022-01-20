@@ -1,6 +1,4 @@
-# Task Queue
-
-## Task queue library written in PHP.
+### Task queue library written in PHP.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/8d81bd99-56ad-4635-9236-f65497ea3881/small.png)](https://insight.sensiolabs.com/projects/8d81bd99-56ad-4635-9236-f65497ea3881)
 [![Coverage Status](https://coveralls.io/repos/github/plvhx/task-queue/badge.svg?branch=master)](https://coveralls.io/github/plvhx/task-queue?branch=master)
