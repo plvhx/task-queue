@@ -1,3 +1,4 @@
+foo/
 vendor/
 .phpunit.cache/
 composer.lock
