@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace TaskQueue\Invoker;
 
+use InvalidArgumentException;
+
+use function call_user_func_array;
+use function func_get_args;
+use function is_array;
+use function sprintf;
+
 /**
  * @author Paulus Gandung Prakosa <gandung@lists.infradead.org>
  */
@@ -34,7 +41,7 @@ class FunctionInvoker implements InvokerInterface
     public function invokeWithArgs($args)
     {
         if (!is_array($args)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Parameter 1 of %s must be an array of required function arguments.",
                     __METHOD__

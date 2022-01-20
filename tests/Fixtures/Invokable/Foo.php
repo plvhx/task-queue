@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace TaskQueue\Tests\Fixtures\Invokable;
-
-declare(strict_types=1);
 
 class Foo
 {

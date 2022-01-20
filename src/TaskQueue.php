@@ -83,18 +83,14 @@ class TaskQueue implements TaskQueueInterface
      */
     private function checkAndAssign($callable): InvokerInterface
     {
-        if (is_callable($callable) || is_a($callable, Closure::class)) {
-            return new FunctionInvoker($callable);
-        }
-
-        if (is_object($callable) && method_exists($callable, '__invoke')) {
-            return new FunctionInvoker($callable);
-        }
-
         if (is_array($callable) &&
             count($callable) == 2 &&
             (is_object($callable[0]) && method_exists($callable[0], $callable[1]))) {
             return new MethodInvoker($callable);
+        }
+
+        if (is_callable($callable) || is_a($callable, Closure::class)) {
+            return new FunctionInvoker($callable);
         }
 
         throw new InvalidArgumentException(
