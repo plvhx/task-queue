@@ -2,7 +2,6 @@
 
 namespace TaskQueue\Tests\Invoker;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TaskQueue\Invoker\FunctionInvoker;
 use TaskQueue\Invoker\Exception\InvalidCallableTypeException;
@@ -83,13 +82,5 @@ class FunctionInvokerTest extends TestCase
 		$this->endOutputBuffering();
 
 		$this->assertTrue(true);
-	}
-
-	public function testCanThrowExceptionWhenInvokableArgsIsInvalid()
-	{
-		$this->expectException(InvalidArgumentException::class);
-
-		$invoker = new FunctionInvoker('file_get_contents');
-		$invoker->invokeWithArgs(true);
 	}
 }

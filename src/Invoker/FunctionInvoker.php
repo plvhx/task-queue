@@ -38,17 +38,8 @@ class FunctionInvoker implements InvokerInterface
     /**
      * {@inheritdoc}
      */
-    public function invokeWithArgs($args)
+    public function invokeWithArgs(array $args)
     {
-        if (!is_array($args)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Parameter 1 of %s must be an array of required function arguments.",
-                    __METHOD__
-                )
-            );
-        }
-
         return call_user_func_array($this->getInvokable(), $args);
     }
 }
