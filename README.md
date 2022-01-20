@@ -10,65 +10,39 @@
 Existing functions or callbacks:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\FunctionInvoker;
 
-$taskQueue = new TaskQueue;
-
-$taskQueue->add(new FunctionInvoker('file_get_contents'), '/etc/passwd');
-
+$taskQueue = new TaskQueue();
+$taskQueue->add('file_get_contents', '/etc/passwd');
 $taskQueue->run();
 ```
 
 Closures:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\FunctionInvoker;
 
-$taskQueue = new TaskQueue;
-
-$closure = function() {
-	echo "Hello with closures." . PHP_EOL;
-};
-
-$taskQueue->add(new FunctionInvoker($closure));
-
-$taskQueue->run();
-```
-
-Class method with class name:
-
-```php
-<?php
-
-use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\MethodInvoker;
-
-$taskQueue = new TaskQueue;
-
-$taskQueue->add(new MethodInvoker(['instance' => \SplPriorityQueue::class, 'method' => 'count']));
-
+$taskQueue = new TaskQueue();
+$taskQueue->add(function() {
+	echo 'Hello with closured.' . PHP_EOL;
+});
 $taskQueue->run();
 ```
 
 Class method with class instance:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
+use SplPriorityQueue;
 use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\MethodInvoker;
 
-$queue = new \SplPriorityQueue;
-$taskQueue = new TaskQueue;
-
-$taskQueue->add(new MethodInvoker(['instance' => $queue, 'method' => 'count']));
-
+$taskQueue = new TaskQueue();
+$taskQueue->add([new SplPriorityQueue(), 'count']);
 $taskQueue->run();
 ```
 
@@ -77,29 +51,25 @@ $taskQueue->run();
 Existing functions or callbacks:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\FunctionInvoker;
 
-$taskQueue = new TaskQueue;
-
+$taskQueue = new TaskQueue();
 $taskQueue
-	->add(new FunctionInvoker('file_get_contents'), '/etc/passwd')
-	->add(new FunctionInvoker('printf'), '%d' . PHP_EOL, 31337);
-
+	->add('file_get_contents', '/etc/passwd')
+	->add('printf', '%d' . PHP_EOL, 31337);
 $taskQueue->run();
 ```
 
 Closures:
 
 ```php
-<?php
+<?php declare(strict_types=1);
 
 use TaskQueue\TaskQueue;
-use TaskQueue\Invoker\FunctionInvoker;
 
-$taskQueue = new TaskQueue;
+$taskQueue = new TaskQueue();
 
 $closures = [
 	function() {
@@ -110,10 +80,7 @@ $closures = [
 	}
 ];
 
-$taskQueue
-	->add(new FunctionInvoker($closures[0]))
-	->add(new FunctionInvoker($closures[1]));
-
+$taskQueue->add($closures[0])->add($closures[1]);
 $taskQueue->run();
 ```
 
