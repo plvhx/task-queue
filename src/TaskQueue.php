@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TaskQueue;
 
+use InvalidArgumentException;
 use TaskQueue\Invoker\FunctionInvoker;
-use TaskQueue\Invoker\InvokerInterface;
 use TaskQueue\Invoker\MethodInvoker;
+use TaskQueue\Invoker\InvokerInterface;
 
 /**
  * @author Paulus Gandung Prakosa <gandung@lists.infradead.org>
@@ -23,7 +26,7 @@ class TaskQueue implements TaskQueueInterface
     {
         try {
             $callable = $this->checkAndAssign($callable);
-        } catch (Exception $e) {
+        } catch (InvalidArgumentException $e) {
             throw $e;
         }
 
@@ -43,7 +46,7 @@ class TaskQueue implements TaskQueueInterface
     public function run()
     {
         while ($eachTasks = array_shift($this->tasks)) {
-            $eachTasks['invoker']->invokeWithArgs($eachTasks['taskArgs']);
+            $eachTasks[0]->invokeWithArgs($eachTasks[1]);
         }
     }
 
@@ -73,7 +76,12 @@ class TaskQueue implements TaskQueueInterface
         return $this;
     }
 
-    private function checkAndAssign($callable)
+    /**
+     * @param mixed $callable
+     * @return \TaskQueue\Invoker\InvokerInterface
+     * @throws InvalidArgumentException When callable parameter is invalid.
+     */
+    private function checkAndAssign($callable): InvokerInterface
     {
         if (is_callable($callable) || is_a($callable, Closure::class)) {
             return new FunctionInvoker($callable);
@@ -88,5 +96,10 @@ class TaskQueue implements TaskQueueInterface
             (is_object($callable[0]) && method_exists($callable[0], $callable[1]))) {
             return new MethodInvoker($callable);
         }
+
+        throw new InvalidArgumentException(
+            'Callable must be function or instance of \\Closure or invokable class object or ' .
+            'pair of class object and its supplied method name that exist within.'
+        );
     }
 }

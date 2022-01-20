@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TaskQueue\Invoker;
 
 /**
@@ -16,7 +18,7 @@ interface InvokerInterface
      * @param array $args
      * @return void
      */
-    public function invokeWithArgs($args);
+    public function invokeWithArgs(array $args);
 
     /**
      * @return mixed

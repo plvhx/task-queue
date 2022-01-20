@@ -1,8 +1,8 @@
 <?php
 
-namespace TaskQueue\Invoker;
+declare(strict_types=1);
 
-use TaskQueue\Exception\InvalidCallableTypeException;
+namespace TaskQueue\Invoker;
 
 /**
  * @author Paulus Gandung Prakosa <gandung@lists.infradead.org>
@@ -17,15 +17,6 @@ class FunctionInvoker implements InvokerInterface
      */
     public function __construct($function)
     {
-        if (!is_callable($function) && !($function instanceof \Closure)) {
-            throw new InvalidCallableTypeException(
-                sprintf(
-                    "Parameter 1 of %s must be a valid callback or exist function name.",
-                    __METHOD__
-                )
-            );
-        }
-
         $this->setInvokable($function);
     }
 
@@ -44,7 +35,10 @@ class FunctionInvoker implements InvokerInterface
     {
         if (!is_array($args)) {
             throw new \InvalidArgumentException(
-                sprintf("Parameter 1 of %s must be an array of required function arguments.", __METHOD__)
+                sprintf(
+                    "Parameter 1 of %s must be an array of required function arguments.",
+                    __METHOD__
+                )
             );
         }
 

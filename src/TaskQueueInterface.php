@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TaskQueue;
 
 use TaskQueue\Invoker\InvokerInterface;
